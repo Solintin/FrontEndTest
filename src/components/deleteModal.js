@@ -6,7 +6,7 @@ const DeleteModal = (props) => {
   return (
     <>
       <button
-        class="py-1.5 px-8 m-2 text-white transition-colors duration-150 bg-red-600 rounded-lg focus:shadow-outline hover:bg-red-700"
+        className="py-1.5 px-8 m-2 text-white transition-colors duration-150 bg-red-600 rounded-lg focus:shadow-outline hover:bg-red-700"
         type="button"
         onClick={() => setShowModal(true)}
       >

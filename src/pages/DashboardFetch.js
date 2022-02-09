@@ -1,30 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
-import DeleteModal from "../components/deleteModal";
 
 import * as types from "../state/Actions/actionCreators";
 
-function Dashboard() {
+function DashboardFetch() {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
-  const handleDelete = (id) => {
-    dispatch(types.RemoveUsers(id));
-    Navigate("/home");
-  };
 
-  const { localUsers } = useSelector((state) => state.user);
+  useEffect(() => {
+    dispatch(types.fetchUser());
+  }, []);
+  const { users } = useSelector((state) => state.user);
 
   return (
     <div>
       <div className="flex justify-between items-center border-b-2 m-3">
         <div className="font-semibold">Use list</div>
-        <button
-          class="py-1.5 px-8 m-2 text-blue-100 transition-colors duration-150 bg-blue-600 rounded-lg focus:shadow-outline hover:bg-blue-700"
-          onClick={() => {
-            Navigate("/form");
-          }}
-        >
+        <button className="py-1.5 px-8 m-2 text-blue-100 transition-colors duration-150 bg-blue-600 rounded-lg focus:shadow-outline hover:bg-blue-700">
           Add New
         </button>
       </div>
@@ -41,11 +34,15 @@ function Dashboard() {
                     <th className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                       Name
                     </th>
-
+                    <th className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                      Username
+                    </th>
                     <th className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                       Email
                     </th>
-
+                    <th className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                      City
+                    </th>
                     <th className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                       Edit
                     </th>
@@ -56,7 +53,7 @@ function Dashboard() {
                   </tr>
                 </thead>
                 <tbody className="">
-                  {localUsers.map((user) => {
+                  {users.map((user) => {
                     return (
                       <tr
                         className="border-b border-gray-400 font-medium"
@@ -68,22 +65,27 @@ function Dashboard() {
                         <td className="text-sm text-gray-900 font-light px-6 py-4 ">
                           {user.name}
                         </td>
+                        <td className="text-sm text-gray-900 font-light px-6 py-4 ">
+                          {user.username}
+                        </td>
 
                         <td className="text-sm text-gray-900 font-light px-6 py-4 ">
                           {user.email}
                         </td>
-
-                        <td className="text-sm text-gray-900 font-light  ">
-                          <Link
-                            to={`edit/${user.id}`}
-                            className="py-1.5 px-8 m-2 text-white transition-colors duration-150 bg-yellow-600 rounded-lg focus:shadow-outline hover:bg-yellow-700"
-                          >
-                            edit
-                          </Link>
+                        <td className="text-sm text-gray-900 font-light px-6 py-4 ">
+                          {user.address.city}
                         </td>
 
                         <td className="text-sm text-gray-900 font-light  ">
-                          <DeleteModal onDelete={() => handleDelete(user.id)} />
+                          <button className="py-1.5 px-8 m-2 text-white transition-colors duration-150 bg-yellow-600 rounded-lg focus:shadow-outline hover:bg-yellow-700">
+                            edit
+                          </button>
+                        </td>
+
+                        <td className="text-sm text-gray-900 font-light  ">
+                          <button className="py-1.5 px-8 m-2 text-white transition-colors duration-150 bg-red-600 rounded-lg focus:shadow-outline hover:bg-red-700">
+                            Delete
+                          </button>
                         </td>
                       </tr>
                     );
@@ -98,4 +100,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default DashboardFetch;

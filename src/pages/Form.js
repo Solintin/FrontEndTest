@@ -2,16 +2,18 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { GetUsers } from "../state/Actions/actionCreators";
+import { useForm } from "react-hook-form";
 
 function Form() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [value, setValue] = useState({ name: "", email: "" });
-  // const handleChange = (e) => {
-  //   setValue({ ...value[e.terget.name]:e.terget.value });
-  // };
 
-  const [error, setError] = useState({});
+  const {
+    register,
+
+    formState: { errors },
+  } = useForm();
+
   const dispatch = useDispatch();
   const Navigate = useNavigate();
   const handleSubmit = (e) => {
@@ -22,50 +24,61 @@ function Form() {
         email,
       }),
     );
-    Navigate("/");
+    Navigate("/home");
   };
 
   return (
-    <div>
-      <label className="block  text-gray-700 text-sm font-medium mb-2">
-        Name
-        <input
-          type="text"
-          name="name"
-          className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full mt-3.5 py-2 px-4 bg-white text-gray-700 
+    <div className="">
+      <h2 className=" border border-gray-300 p-4"> Form</h2>
+      <div className="p-5">
+        <label className=" text-gray-700 text-sm font-medium mb-2 flex items-center justify-center ">
+          Name
+          <input
+            type="text"
+            name="name"
+            className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full mt-3.5 py-1 px-4 bg-white text-gray-700 
               shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-primary-orange focus:border-transparent"
-          style={{ transition: "all .15s ease" }}
-          onChange={(e) => {
-            setName(e.target.value);
-          }}
-        />
-      </label>
-      <label className="block  text-gray-700 text-sm font-medium mb-2">
-        Email
-        <input
-          type="text"
-          name="email"
-          className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full mt-3.5 py-2 px-4 bg-white text-gray-700 
+            style={{ transition: "all .15s ease" }}
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+            {...register("Name", { required: true })}
+          />
+          {errors.name && "Last name is required"}
+        </label>
+        <label className=" text-gray-700 text-sm font-medium mb-2 flex items-center justify-center ">
+          Email
+          <input
+            type="text"
+            name="email"
+            className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full mt-3.5 py-1 px-4 bg-white text-gray-700 
               shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-primary-orange focus:border-transparent"
-          style={{ transition: "all .15s ease" }}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        />
-      </label>
+            style={{ transition: "all .15s ease" }}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            {...register("Email", { required: true, pattern: /^\S+@\S+$/i })}
+          />
+          {errors.email?.type === "required" && "First name is required"}
+        </label>
 
-      <div className="flex justify-around items-center">
-        <button
-          className=""
-          onClick={() => {
-            Navigate("/");
-          }}
-        >
-          Cancel
-        </button>
-        <button className="" onClick={handleSubmit}>
-          Submit
-        </button>
+        <div className="flex justify-around items-center">
+          <button
+            className="py-1.5 px-8 m-2 text-red-500 transition-colors duration-150 bg-white rounded-lg focus:shadow-outline border border-red-500"
+            onClick={() => {
+              Navigate("/home");
+            }}
+          >
+            Cancel
+          </button>
+          <button
+            className="py-1.5 px-8 m-2 text-blue-100 transition-colors duration-150 bg-green-600 rounded-lg focus:shadow-outline hover:bg-green-700"
+            onClick={handleSubmit}
+            type="submit"
+          >
+            Submit
+          </button>
+        </div>
       </div>
     </div>
   );

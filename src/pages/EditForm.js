@@ -22,7 +22,7 @@ function EditForm() {
   const handleEdit = (e) => {
     e.preventDefault();
     dispatch(EditUsers({ name, email, id: getUser.id }));
-    Navigate("/");
+    Navigate("/home");
   };
 
   return (
@@ -60,7 +60,7 @@ function EditForm() {
         <button
           className=""
           onClick={() => {
-            Navigate("/");
+            Navigate("/home");
           }}
         >
           Cancel
