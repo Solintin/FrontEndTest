@@ -2,7 +2,7 @@ import * as type from "../Actions/types";
 
 const initailState = {
   users: [],
-  localUsers: [],
+  localUsers: [{ name: "soliu", email: "soli@", id: 1 }],
   loading: false,
   error: "",
 };
@@ -51,7 +51,7 @@ const User = (state = initailState, action) => {
     case type.EDIT_USER_SUCCESS:
       const updateCurrentUser = () => {
         const update = state.localUsers.filter(
-          (item) => item.id != action.payload.id,
+          (item) => item.id != action.payload.id
         );
         return [...update, action.payload];
       };
