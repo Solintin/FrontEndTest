@@ -2,18 +2,16 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { GetUsers } from "../state/Actions/actionCreators";
-import { useForm } from "react-hook-form";
 
 function Form() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [value, setValue] = useState({ name: "", email: "" });
+  // const handleChange = (e) => {
+  //   setValue({ ...value[e.terget.name]:e.terget.value });
+  // };
 
-  const {
-    register,
-
-    formState: { errors },
-  } = useForm();
-
+  const [error, setError] = useState({});
   const dispatch = useDispatch();
   const Navigate = useNavigate();
   const handleSubmit = (e) => {
@@ -42,9 +40,7 @@ function Form() {
             onChange={(e) => {
               setName(e.target.value);
             }}
-            {...register("Name", { required: true })}
           />
-          {errors.name && "Last name is required"}
         </label>
         <label className=" text-gray-700 text-sm font-medium mb-2 flex items-center justify-center ">
           Email
@@ -57,9 +53,7 @@ function Form() {
             onChange={(e) => {
               setEmail(e.target.value);
             }}
-            {...register("Email", { required: true, pattern: /^\S+@\S+$/i })}
           />
-          {errors.email?.type === "required" && "First name is required"}
         </label>
 
         <div className="flex justify-around items-center">
@@ -74,7 +68,6 @@ function Form() {
           <button
             className="py-1.5 px-8 m-2 text-blue-100 transition-colors duration-150 bg-green-600 rounded-lg focus:shadow-outline hover:bg-green-700"
             onClick={handleSubmit}
-            type="submit"
           >
             Submit
           </button>
@@ -85,3 +78,21 @@ function Form() {
 }
 
 export default Form;
+//
+// import React from 'react';
+// import { useForm } from 'react-hook-form';
+
+// export default function App() {
+//   const { register, handleSubmit, formState: { errors } } = useForm();
+//   const onSubmit = data => console.log(data);
+//   console.log(errors);
+
+//   return (
+//     <form onSubmit={handleSubmit(onSubmit)}>
+//       <input type="text" placeholder="Email" {...register("Email", {required: true, pattern: /^\S+@\S+$/i})} />
+//       <input type="text" placeholder="Name" {...register("Name", {required: true})} />
+
+//       <input type="submit" />
+//     </form>
+//   );
+// }
